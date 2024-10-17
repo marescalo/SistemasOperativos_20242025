@@ -1,0 +1,25 @@
+El apartado a) se hace con el comando ps, solo hay q usarlo uva vez
+a buscarse la vida
+
+opcion -o del comando ps 
+
+pista:
+
+ps -e -o sid,pgid, pid, user, tty %mem, cmd (se puede añadri --no-headers y --sort=user)
+
+penaliza en la correccion si lo guardas en un archuivo, tienes que guardarlo en una variable
+
+
+ | awk '{print ($1 " " $2 " " $3 " " $4 " " $5 " " $6 " " $7 " ")}
+
+ ps -e -o sid | grep -v 0 (opcion de que no te muestre los sid q sean 0)
+
+ d) La opción -u deberá ir acompañada de un nombre de usuario. Si se utiliza, se mostrarán los
+procesos cuyo usuario efectivo sea el especificado.
+
+hacerlo con grep, seria grep
+
+
+17/10/2024
+
+hacer todo el apartado 1 y del apartado 2 solo la opcion b

@@ -1,3 +1,29 @@
 #!/bin/bash
 
-procesos = "$(ps -e -o sid,pgid,pid,user,tty,%mem,cmd --no-headers --sort=user  | awk '{print $1 " " $2 " " $3 " " $4 " " $5 " " $6 " " $7 " "}') "
+usage(){
+    echo "usage: infosession.sh [-u user] [-z] [-h]"
+}
+
+usuario=
+opcion_z=0
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -u | --user )
+            shift
+            usuario=$1
+            ;;
+        -z )
+            opcion_z=1
+            ;;
+        -h | --help ) 
+            usage
+            exit
+            ;;
+        * ) 
+            usage
+            exit 1
+    esac
+    shift
+done
+echo "muestra los procesos..."

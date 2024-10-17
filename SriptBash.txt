@@ -7,6 +7,9 @@ pista:
 
 ps -e -o sid,pgid, pid, user, tty %mem, cmd (se puede añadri --no-headers y --sort=user)
 
+procesos = "$(ps -e -o sid,pgid,pid,user,tty,%mem,cmd --no-headers --sort=user  | awk '{print $1 " " $2 " " $3 " " $4 " " $5 " " $6 " " $7 " "}') "
+
+
 penaliza en la correccion si lo guardas en un archuivo, tienes que guardarlo en una variable
 
 
@@ -17,7 +20,10 @@ penaliza en la correccion si lo guardas en un archuivo, tienes que guardarlo en 
  d) La opción -u deberá ir acompañada de un nombre de usuario. Si se utiliza, se mostrarán los
 procesos cuyo usuario efectivo sea el especificado.
 
-hacerlo con grep, seria grep
+hacerlo con grep, seria grep 
+
+echo $? // muestra si el comando se ha ejecutado correctamente
+test // 
 
 
 17/10/2024

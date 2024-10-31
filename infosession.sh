@@ -1,32 +1,33 @@
 #!/bin/bash
 
-usage(){
-    echo "usage: infosession.sh [-h] [-z] [-u user]"
-}
-
+#varibales de entorno
 encabezado="SID PGID PID USER TTY %MEM CMD"
 procesos="ps -e -o sid,pgid,pid,user,tty,%mem,cmd --no-headers --sort=user | awk '{print \$1,\$2,\$3,\$4,\$5,\$6,\$7}'"
 flag_z=0
 flag_u=0
 flag_d=0
 
-tabla(){
+#muestra el --help
+usage(){
+    echo "usage: infosession.sh [-h] [-z] [-u user] [-d dir ]"
+}
 
+#imprimimos la tabla
+tabla(){
   echo $encabezado
+  #opcion -u
   if [ "$flag_u" == 1 ]; then
     procesos="$procesos | grep '$usuario'"
   fi
+  #opcion -z
   if [ $flag_z == 0 ]; then
     procesos="$procesos | grep --invert-match ^0"
   fi
+  #opcion -d
   if [ $flag_d == 1 ]; then
-    procesos="$($procesos )"
+    procesos="$procesos | lsof +d ruta_dir "
   fi
-
 }
-
-
-echo "muestra los procesos..."
 
 # si no se mete ninguna opcion
 if [ "$1" == "" ]; then
@@ -56,14 +57,21 @@ while [ "$1" != "" ]; do
             ;;
         -d)
             flag_d=1
+            ruta_dir=$2
+            if [ $ruta_dir == "" ]; then
+                echo "Se ha introducido una opcion de directorio no valida"
+                exit 1
+            fi
             ;;
         *) 
-            
+            echo "la opcion o una de las opciones introducidas no es parte de las opciones aceptadas por el programa"
+            usage
             exit 0
             ;;
     esac
     shift
 done
 
+echo "muestra los procesos: "
 tabla
 eval "$procesos"

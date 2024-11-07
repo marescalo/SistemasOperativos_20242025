@@ -39,9 +39,11 @@ tabla(){
   fi
   # Opción -d
   if [ $flag_d == 1 ]; then
-    for pid in $pid_rutadir; do
-      procesos="$procesos | awk -v pid=$pid '\$3 == pid'"
-    done
+    if [[ -n "$pid_rutadir" ]];then
+      pid_filter=$(echo "$pid_rutadir" | tr '\n' '|')
+      pid_filter="${pid_filter%|}"
+      procesos="$procesos | awk '\3 ~ /^($pid_filter)$/'"
+    fi
   fi
   # Opción -t
   if [ $flag_t == 1 ]; then
